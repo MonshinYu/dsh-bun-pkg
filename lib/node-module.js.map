@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "sources": ["../src/node-module.ts"],
+  "sourcesContent": [
+    "import { fileURLToPath } from \"node:url\";\n\nexport interface StripTypeScriptOptions {\n  mode?: \"strip\" | \"transform\";\n  sourceUrl?: string;\n  sourceMap?: boolean;\n}\n\nexport function stripTypeScriptTypes(code: string, options: StripTypeScriptOptions = {}): string {\n  if (typeof code !== \"string\") throw new TypeError(\"code 必须是字符串\");\n  const helper = fileURLToPath(new URL(\"./strip-types.js\", import.meta.url));\n  const encodedOptions = Buffer.from(JSON.stringify(options)).toString(\"base64\");\n  const result = Bun.spawnSync([\"node\", helper, encodedOptions], {\n    stdin: Buffer.from(code),\n    stdout: \"pipe\",\n    stderr: \"pipe\"\n  });\n  if (result.exitCode !== 0) {\n    const detail = result.stderr.toString().trim();\n    const error = new SyntaxError(detail || \"stripTypeScriptTypes 执行失败\");\n    Object.assign(error, { code: \"ERR_INVALID_TYPESCRIPT_SYNTAX\" });\n    throw error;\n  }\n  return result.stdout.toString();\n}\n"
+  ],
+  "mappings": ";;AAAA;AAQO,SAAS,oBAAoB,CAAC,MAAc,UAAkC,CAAC,GAAW;AAAA,EAC/F,IAAI,OAAO,SAAS;AAAA,IAAU,MAAM,IAAI,UAAU,2CAAY;AAAA,EAC9D,MAAM,SAAS,cAAc,IAAI,IAAI,oBAAoB,YAAY,GAAG,CAAC;AAAA,EACzE,MAAM,iBAAiB,OAAO,KAAK,KAAK,UAAU,OAAO,CAAC,EAAE,SAAS,QAAQ;AAAA,EAC7E,MAAM,SAAS,IAAI,UAAU,CAAC,QAAQ,QAAQ,cAAc,GAAG;AAAA,IAC7D,OAAO,OAAO,KAAK,IAAI;AAAA,IACvB,QAAQ;AAAA,IACR,QAAQ;AAAA,EACV,CAAC;AAAA,EACD,IAAI,OAAO,aAAa,GAAG;AAAA,IACzB,MAAM,SAAS,OAAO,OAAO,SAAS,EAAE,KAAK;AAAA,IAC7C,MAAM,QAAQ,IAAI,YAAY,UAAU,+CAA0B;AAAA,IAClE,OAAO,OAAO,OAAO,EAAE,MAAM,gCAAgC,CAAC;AAAA,IAC9D,MAAM;AAAA,EACR;AAAA,EACA,OAAO,OAAO,OAAO,SAAS;AAAA;",
+  "debugId": "FBAED9F9DEF316B364756E2164756E21",
+  "names": []
+}

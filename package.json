@@ -1,0 +1,20 @@
+{
+  "name": "dsh-bun-pkg",
+  "module": "main.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prepare-runtime": "bun run scripts/embed.ts",
+    "dev": "bun run prepare-runtime && bun main.ts",
+    "build": "bun run prepare-runtime && bun build main.ts --compile --outfile target/dsh && rm .dsh-archive.bin lib/.dsh-preload.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh": "^0.1.0-rc.7"
+  }
+}

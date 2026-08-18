@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "sources": ["../src/strip-types.ts"],
+  "sourcesContent": [
+    "import { stripTypeScriptTypes } from \"node:module\";\n\nconst options = JSON.parse(Buffer.from(process.argv[2], \"base64\").toString());\nlet code = \"\";\nprocess.stdin.setEncoding(\"utf8\");\nprocess.stdin.on(\"data\", (chunk) => { code += chunk; });\nprocess.stdin.on(\"end\", () => {\n  try {\n    process.stdout.write(stripTypeScriptTypes(code, options));\n  } catch (error) {\n    process.stderr.write(error instanceof Error ? error.stack ?? error.message : String(error));\n    process.exitCode = 1;\n  }\n});\n"
+  ],
+  "mappings": ";AAAA;AAEA,IAAM,UAAU,KAAK,MAAM,OAAO,KAAK,QAAQ,KAAK,IAAI,QAAQ,EAAE,SAAS,CAAC;AAC5E,IAAI,OAAO;AACX,QAAQ,MAAM,YAAY,MAAM;AAChC,QAAQ,MAAM,GAAG,QAAQ,CAAC,UAAU;AAAA,EAAE,QAAQ;AAAA,CAAQ;AACtD,QAAQ,MAAM,GAAG,OAAO,MAAM;AAAA,EAC5B,IAAI;AAAA,IACF,QAAQ,OAAO,MAAM,qBAAqB,MAAM,OAAO,CAAC;AAAA,IACxD,OAAO,OAAO;AAAA,IACd,QAAQ,OAAO,MAAM,iBAAiB,QAAQ,MAAM,SAAS,MAAM,UAAU,OAAO,KAAK,CAAC;AAAA,IAC1F,QAAQ,WAAW;AAAA;AAAA,CAEtB;",
+  "debugId": "B43495C8629AE4A764756E2164756E21",
+  "names": []
+}
