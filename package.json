@@ -3,6 +3,7 @@
   "module": "main.ts",
   "type": "module",
   "private": true,
+  "version": "0.1.0",
   "scripts": {
     "prepare-runtime": "bun run scripts/embed.ts",
     "dev": "bun run prepare-runtime && bun main.ts",
