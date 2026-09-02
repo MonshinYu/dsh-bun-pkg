@@ -1,7 +1,8 @@
 import {readdirSync, readFileSync, statSync, writeFileSync} from "node:fs";
 import path from "node:path";
+import {fileURLToPath} from "node:url";
 
-const projectRoot = path.dirname(path.dirname(new URL(import.meta.url).pathname));
+const projectRoot = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 
 const preloadPath = path.join(projectRoot, "lib", "preload.js");
 const archivePath = path.join(projectRoot, ".dsh-archive.bin");
