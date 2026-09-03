@@ -80,7 +80,7 @@ jobs:
           retention-days: 1
 
   release:
-    needs: build
+    needs: [build, prepare]
 
     runs-on: ubuntu-latest
 
