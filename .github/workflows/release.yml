@@ -72,11 +72,23 @@ jobs:
       - name: Build
         run: bun run build
 
+      - name: Rename binary
+        shell: bash
+        run: |
+          if [ -f target/dsh.exe ]; then
+            mv target/dsh.exe "target/dsh-${{ matrix.platform }}-${{ matrix.arch }}.exe"
+          elif [ -f target/dsh ]; then
+            mv target/dsh "target/dsh-${{ matrix.platform }}-${{ matrix.arch }}"
+          else
+            echo "No binary found in target/" && exit 1
+          fi
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: dsh-${{ matrix.platform }}-${{ matrix.arch }}
-          path: target/dsh
+          path: target/dsh-${{ matrix.platform }}-${{ matrix.arch }}*
+          if-no-files-found: error
           retention-days: 1
 
   release:
@@ -110,9 +122,9 @@ jobs:
           prerelease: ${{ contains(steps.version.outputs.version, 'rc') || contains(steps.version.outputs.version, 'alpha') || contains(steps.version.outputs.version, 'beta') }}
           generate_release_notes: true
           files: |
-            artifacts/dsh-linux-x64/dsh
-            artifacts/dsh-macos-x64/dsh
-            artifacts/dsh-macos-arm64/dsh
-            artifacts/dsh-windows-x64/dsh.exe
+            artifacts/dsh-linux-x64/dsh-linux-x64
+            artifacts/dsh-macos-x64/dsh-macos-x64
+            artifacts/dsh-macos-arm64/dsh-macos-arm64
+            artifacts/dsh-windows-x64/dsh-windows-x64.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
